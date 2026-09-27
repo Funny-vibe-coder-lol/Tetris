@@ -367,6 +367,18 @@
     }
   }
 
+  function performAction(action) {
+    if (action === 'pause') {
+      if (state === 'playing' || state === 'paused') togglePause();
+      return;
+    }
+    if (state !== 'playing' || clearAnimation) return;
+    if (action === 'left' && move(-1, 0)) playTone(250, 0.045, 'square', 0.018);
+    else if (action === 'right' && move(1, 0)) playTone(280, 0.045, 'square', 0.018);
+    else if (action === 'down' && move(0, 1)) playTone(175, 0.04, 'triangle', 0.018);
+    else if (action === 'rotate') tryRotate();
+  }
+
   function tick(now) {
     const elapsed = Math.min(now - lastTick, 100);
     lastTick = now;
@@ -389,13 +401,50 @@
     const keys = ['ArrowLeft', 'ArrowRight', 'ArrowDown', 'ArrowUp', ' '];
     if (keys.includes(event.key)) event.preventDefault();
     if (event.key === ' ' && (state === 'playing' || state === 'paused')) { togglePause(); return; }
-    if (state !== 'playing') return;
-    if (clearAnimation) return;
-    if (event.key === 'ArrowLeft' || event.key.toLowerCase() === 'a') { if (move(-1, 0)) playTone(250, 0.045, 'square', 0.018); }
-    else if (event.key === 'ArrowRight' || event.key.toLowerCase() === 'd') { if (move(1, 0)) playTone(280, 0.045, 'square', 0.018); }
-    else if (event.key === 'ArrowDown' || event.key.toLowerCase() === 's') { if (move(0, 1)) playTone(175, 0.04, 'triangle', 0.018); }
-    else if (event.key === 'ArrowUp' || event.key.toLowerCase() === 'w') tryRotate();
+    const key = event.key.toLowerCase();
+    if (event.key === 'ArrowLeft' || key === 'a') performAction('left');
+    else if (event.key === 'ArrowRight' || key === 'd') performAction('right');
+    else if (event.key === 'ArrowDown' || key === 's') performAction('down');
+    else if (event.key === 'ArrowUp' || key === 'w') performAction('rotate');
   });
+
+  let activePointerId = null;
+  let activeTouchButton = null;
+  let repeatDelay = 0;
+  let repeatInterval = 0;
+  function stopTouchAction(event) {
+    if (event && event.pointerId !== activePointerId) return;
+    clearTimeout(repeatDelay);
+    clearInterval(repeatInterval);
+    repeatDelay = 0;
+    repeatInterval = 0;
+    activeTouchButton?.classList.remove('is-pressed');
+    activeTouchButton = null;
+    activePointerId = null;
+  }
+
+  document.querySelectorAll('.touch-controls button').forEach(button => {
+    button.addEventListener('pointerdown', event => {
+      if (activePointerId !== null || event.button !== 0) return;
+      event.preventDefault();
+      activePointerId = event.pointerId;
+      activeTouchButton = button;
+      button.classList.add('is-pressed');
+      try { button.setPointerCapture(event.pointerId); } catch { /* pointer capture is optional */ }
+      const action = button.dataset.action;
+      performAction(action);
+      if (action === 'left' || action === 'right' || action === 'down') {
+        repeatDelay = setTimeout(() => {
+          repeatInterval = setInterval(() => performAction(action), 95);
+        }, 260);
+      }
+    });
+    button.addEventListener('pointerup', stopTouchAction);
+    button.addEventListener('pointercancel', stopTouchAction);
+    button.addEventListener('lostpointercapture', stopTouchAction);
+    button.addEventListener('contextmenu', event => event.preventDefault());
+  });
+  window.addEventListener('blur', () => stopTouchAction());
 
   startButton.addEventListener('click', () => {
     if (state === 'paused') togglePause();
