@@ -377,6 +377,17 @@
     else if (action === 'right' && move(1, 0)) playTone(280, 0.045, 'square', 0.018);
     else if (action === 'down' && move(0, 1)) playTone(175, 0.04, 'triangle', 0.018);
     else if (action === 'rotate') tryRotate();
+    else if (action === 'hard-drop') hardDrop();
+  }
+
+  function hardDrop() {
+    if (state !== 'playing' || !current || clearAnimation) return;
+    let moved = false;
+    while (current && state === 'playing' && !clearAnimation) {
+      if (!move(0, 1)) break;
+      moved = true;
+    }
+    if (moved) playTone(95, 0.09, 'sawtooth', 0.035);
   }
 
   function tick(now) {
@@ -398,14 +409,16 @@
   }
 
   document.addEventListener('keydown', event => {
-    const keys = ['ArrowLeft', 'ArrowRight', 'ArrowDown', 'ArrowUp', ' '];
+    const keys = ['ArrowLeft', 'ArrowRight', 'ArrowDown', 'ArrowUp', ' ', 'Enter'];
     if (keys.includes(event.key)) event.preventDefault();
+    if (event.key === 'Enter' && event.repeat) return;
     if (event.key === ' ' && (state === 'playing' || state === 'paused')) { togglePause(); return; }
     const key = event.key.toLowerCase();
     if (event.key === 'ArrowLeft' || key === 'a') performAction('left');
     else if (event.key === 'ArrowRight' || key === 'd') performAction('right');
     else if (event.key === 'ArrowDown' || key === 's') performAction('down');
     else if (event.key === 'ArrowUp' || key === 'w') performAction('rotate');
+    else if (event.key === 'Enter') performAction('hard-drop');
   });
 
   let activePointerId = null;

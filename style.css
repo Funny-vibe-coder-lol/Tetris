@@ -46,6 +46,8 @@ body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 32%,#1c
   .touch-controls button{min-width:0;min-height:56px;padding:0;border:1px solid #3b4058;border-radius:10px;background:linear-gradient(180deg,#252b3e,#1a1f2e);color:#f0edff;font:600 25px/1 system-ui,sans-serif;box-shadow:0 3px 0 #0c0f18;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
   .touch-controls button:active,.touch-controls button.is-pressed{transform:translateY(2px);border-color:#9b83e8;background:#302a46;box-shadow:0 1px 0 #0c0f18}
   .touch-controls button[data-action="pause"]{font-size:19px;color:#c4b5fd}
+  .touch-controls button[data-action="hard-drop"]{grid-column:1 / -1;min-height:46px;border-color:#b77a47;background:linear-gradient(180deg,#a85d38,#713c2d);color:#fff4e9;font-size:14px;letter-spacing:.1em;box-shadow:0 3px 0 #40221b}
+  .touch-controls button[data-action="hard-drop"]:active,.touch-controls button[data-action="hard-drop"].is-pressed{background:#bf7047;border-color:#efaa70}
   .right-panel{grid-column:2;grid-row:2 / span 2;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:7px 8px;align-items:center;padding:0;min-width:0}
   .right-panel>.eyebrow{grid-column:1;grid-row:1;font-size:8px}
   .next-box{grid-column:1;grid-row:2;width:100%;height:62px;margin:0}
@@ -60,17 +62,21 @@ body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 32%,#1c
   body{padding-top:max(8px,env(safe-area-inset-top))}
   .header{margin-bottom:10px}
   .header-label{font-size:7px}
-  .game-layout{grid-template-columns:minmax(0,1fr);gap:8px;width:100%}
-  .left-panel{grid-column:1;grid-row:1;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px 5px;width:100%;max-width:360px;justify-self:center}
+  .game-layout{grid-template-columns:minmax(0,1fr) 92px;gap:8px 10px;width:100%}
+  .left-panel{grid-column:1 / -1;grid-row:1;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px 5px;width:100%;max-width:360px;justify-self:center}
   .left-panel .eyebrow{font-size:7px;letter-spacing:.06em;white-space:nowrap}
   .left-panel .score,.left-panel .stat-value{font-size:16px}
   .board-wrap{grid-column:1;grid-row:2;justify-self:center;width:max-content;max-width:100%}
   #board{width:min(54vw,240px);height:auto;aspect-ratio:1/2}
   .board-topline{margin-bottom:5px;font-size:8px}
   .board-footer{margin-top:6px;font-size:8px}
-  .touch-controls{grid-column:1;grid-row:3;width:min(100%,340px);max-width:340px;gap:6px;margin:2px auto 0}
+  .touch-controls{grid-column:1 / -1;grid-row:3;width:100%;max-width:340px;gap:6px;margin:2px auto 0}
   .touch-controls button{min-height:54px;font-size:24px}
-  .right-panel{grid-column:1;grid-row:4;width:min(100%,340px);grid-template-columns:100px minmax(0,1fr);gap:5px 9px;margin:0 auto}
+  .right-panel{grid-column:2;grid-row:2;width:100%;grid-template-columns:minmax(0,1fr);gap:6px;margin:0;align-self:start}
+  .right-panel>.eyebrow{grid-column:1;grid-row:1}
+  .right-panel .next-box{grid-column:1;grid-row:2;width:100%}
+  .right-panel .restart-button{grid-column:1;grid-row:3;width:100%;padding:0 4px}
+  .right-panel .best-card{grid-column:1;grid-row:4;display:block}
   .next-box{height:56px}
   #next{height:54px;width:90px}
   .restart-button{height:42px}
