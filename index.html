@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#10131e">
+    <title>Тетрис — игра</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <main class="app">
+      <header class="header">
+        <a class="brand" href="#" aria-label="Тетрис">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <span>BLOCK<span class="brand-accent">FALL</span></span>
+        </a>
+        <span class="header-label">КЛАССИЧЕСКАЯ АРКАДА</span>
+      </header>
+
+      <section class="game-layout" aria-label="Игра Тетрис">
+        <aside class="side-panel left-panel">
+          <div class="eyebrow">СЧЁТ</div>
+          <div class="score" id="score">00000</div>
+          <div class="divider"></div>
+          <div class="eyebrow">ЛИНИИ</div>
+          <div class="stat-value" id="lines">0</div>
+          <div class="eyebrow level-label">УРОВЕНЬ</div>
+          <div class="stat-value" id="level">1</div>
+          <div class="eyebrow tetris-label">ЛИНИИ В ТЕТРИСЕ</div>
+          <div class="stat-value" id="tetris-rate">0%</div>
+          <div class="tip-card"><span class="tip-icon">✦</span><p>Собирай линии,<br>чтобы набирать очки</p></div>
+        </aside>
+
+        <div class="board-wrap">
+          <div class="board-topline"><span>ИГРОВОЕ ПОЛЕ</span><span class="live-dot"><i></i> LIVE</span></div>
+          <div class="board-shell">
+            <canvas id="board" width="300" height="600" aria-label="Игровое поле 10 на 20"></canvas>
+            <div class="overlay" id="overlay">
+              <div class="overlay-card">
+                <div class="overlay-kicker" id="overlay-kicker">ГОТОВ?</div>
+                <h1 id="overlay-title">Твой ход</h1>
+                <p id="overlay-text">Собирай блоки в линии и побей свой рекорд.</p>
+                <button id="start-button" type="button"><span>▶</span> Начать игру</button>
+              </div>
+            </div>
+          </div>
+          <div class="board-footer"><span>10 × 20</span><span>УДАЧНОЙ ИГРЫ <b>✦</b></span></div>
+        </div>
+
+        <aside class="side-panel right-panel">
+          <div class="eyebrow">СЛЕДУЮЩАЯ</div>
+          <div class="next-box"><canvas id="next" width="120" height="100" aria-label="Следующая фигура"></canvas></div>
+          <button class="restart-button" id="restart-button" type="button">↻ <span>Начать заново</span></button>
+          <div class="controls-card">
+            <div class="eyebrow">УПРАВЛЕНИЕ</div>
+            <div class="control-row"><span>ДВИЖЕНИЕ</span><span class="key-pair"><kbd>←</kbd><kbd>→</kbd></span></div>
+            <div class="control-row"><span>ПОВОРОТ</span><kbd>↑</kbd></div>
+            <div class="control-row"><span>УСКОРИТЬ</span><kbd>↓</kbd></div>
+            <div class="control-row"><span>ПАУЗА</span><kbd>Пробел</kbd></div>
+          </div>
+          <div class="best-card"><span>ЛУЧШИЙ РЕЗУЛЬТАТ</span><strong id="best">00000</strong></div>
+        </aside>
+      </section>
+      <footer class="footer"><span>BLOCKFALL <b>•</b> ARCADE</span><span>СОЗДАНО ДЛЯ ХОРОШЕЙ ИГРЫ</span></footer>
+    </main>
+    <script src="game.js"></script>
+  </body>
+</html>
